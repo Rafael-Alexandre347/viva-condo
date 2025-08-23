@@ -1,3 +1,5 @@
+import React from "react";
+
 const Home = () => {
 
   type Morador = {
@@ -23,11 +25,13 @@ const Home = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div className="pt-55 pb-55 pr-75 pl-75 bg-black">
-      <h1 className="text-2x1 font-semibold bg-blue-800 p-5 rounded text-white">{obterSaudacao(morador)}</h1>
-    </div>
-    </div>
+    <div id="principal" className = "min-h-screen flex items-center justify-center bg-black">
+	    <div id="componente-azul" className = "card-azul">
+		    <h1 id="name" className = "text-2xl font-blod text-center">
+			  {obterSaudacao(morador)}
+		  </h1>
+  	</div>
+  </div>
   );
 };
 
