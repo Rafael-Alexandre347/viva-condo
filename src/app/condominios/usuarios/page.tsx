@@ -1,26 +1,10 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { getCondominios, ICondominio } from '../services/api-condominios';
-
-export default function ListaCondominios() {
-
-    const [condominios, setCondominios] = useState<ICondominio[]>([])
-
-    useEffect(() => {
-        const buscarCondominios = async () => {
-            const data = await getCondominios()
-            console.log(data)
-            setCondominios(data)
-        }
-
-        buscarCondominios()
-    }, [])
-
+export default function ListaUsuarios() {
     return(
         <div className="p-6 max-w-full">
             <div className="mb-3 flex items-center justify between gap-4">
-                <h1 className="text-x1 font-semibold">Condominios</h1>
+                <h1 className="text-x1 font-semibold">Usuários</h1>
             </div>
 
         <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
@@ -29,10 +13,10 @@ export default function ListaCondominios() {
                     <tr>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider w-12">#</th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Nome</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Endereço</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Cidade</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">UF</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">E-mail</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Contato</th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Tipo</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Status</th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Ação</th>
                     </tr>
                 </thead>
