@@ -1,19 +1,26 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { getCondominios, ICondominio } from '../services/api-condominios';
+import { getCondominios, ICondominio } from '../services/condominio-service';
 
 export default function ListaCondominios() {
 
     const [condominios, setCondominios] = useState<ICondominio[]>([])
+    const [erro, setErro] = useState <string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const buscarCondominios = async () => {
-            const data = await getCondominios()
-            console.log(data)
-            setCondominios(data)
-        }
-
+            try {
+                const response = await fetch("/api/condominios", { cache: "no-store" });
+                const {data, success, count, error} = await response.json();
+                setCondominios(data);
+            } catch (e: any) {
+                setErro(e.message ?? "Erro inesperado");
+            } finally {
+                setLoading(false);
+            }
+        };
         buscarCondominios()
     }, [])
 
