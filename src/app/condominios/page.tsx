@@ -6,7 +6,7 @@ import { getCondominios, ICondominio } from '../services/condominio-service';
 export default function ListaCondominios() {
 
     const [condominios, setCondominios] = useState<ICondominio[]>([])
-    const [erro, setErro] = useState <string | null>(null);
+    const [err, setErro] = useState <string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -24,11 +24,11 @@ export default function ListaCondominios() {
         buscarCondominios()
     }, [])
 
-    return(
-        <div className="p-6 max-w-full">
-            <div className="mb-3 flex items-center justify between gap-4">
-                <h1 className="text-x1 font-semibold">Condominios</h1>
-            </div>
+    return (
+        <div className="p-6 max-w-full"> 
+        <div className="mb-4 flex items-center justify-between gap-4">
+            <h1 className="text-x1 font-semibold">Condominios</h1>
+        </div>
 
         <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
@@ -44,29 +44,44 @@ export default function ListaCondominios() {
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                    {condominios.length === 0 ? (
+                    {
+                    err ? (
                     <tr>
-                        <td className="px-4 py-3 text-sm text-gray-700" colSpan={7}>
-                            Nenhum condomínio encontrado.
+                        <td className="px-4 py-3 text-am text-gray-700" colSpan={7}>
+                            Erro encontrado: {err}
+                        </td>
+                    </tr>
+                    ) :
+                    loading ? (
+                    <tr>
+                        <td className="px-4 py-3 text-am text-gray-700" colSpan={7}>
+                            Carregando...
+                        </td>
+                    </tr>
+                    ) :
+                    condominios.length === 0? (
+                    <tr>
+                        <td className="px-4 py-3 text-am text-gray-700" colSpan={7}>
+                            Nenhum condominio encontrado.
                         </td>
                     </tr>
                     ) : (
                         condominios.map((condominio, index) => (
-                            <tr key={condominio.id_condominio} className="hover:bg-gray-50">
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{String(index + 1)}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.nome_condominio}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.endereco_condominio}</td>
-                                <td className="px-4 py-3 whitespace noweap text-sm text-gray-500">{condominio.cidade_condominio}</td>
-                                <td className="px-4 py-3 whitespace noweap text-sm text-gray-500">{condominio.uf_condominio}</td>
-                                <td className="px-4 py-3 whitespace noweap text-sm text-gray-500">{condominio.tipo_condominio}</td>
-                                <td className="px-4 py-3 whitespace noweap text-sm text-gray-500"></td>                            
+                            <tr key={condominio.id_condominio} className = "hover:bg-gray-50">
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{String(index + 1)}</td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.nome_condominio} </td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.endereco_condominio}</td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.cidade_condominio}</td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.uf_condominio}</td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.tipo_condominio}</td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500"></td>
                             </tr>
                         ))
-
                     )}
                 </tbody>
             </table>
         </div>
-    </div>
-);
+
+        </div>
+    ) ;
 }

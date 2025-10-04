@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { createClient } from "./utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -9,6 +10,8 @@ export default function Page() {
   const [checkingSession, setCheckingSession] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const checkSession = async () => {
@@ -23,14 +26,24 @@ export default function Page() {
   }, []);
 
   const login = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error || !data.user) {
-      return;
-    }
-    router.replace("/condominios");
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error || !data.user) {
+        setErrorMsg("E-mail ou senha inválidos.");
+        setLoading(false);
+        return;
+      }
+      router.replace("/condominios");
+    } catch (err) {
+    setErrorMsg("Erro inesperado. Tente novamente.");
+    setLoading(false);
   }
+}
 
   if (checkingSession) {
     return null;
@@ -59,10 +72,16 @@ export default function Page() {
               className="w-full p-3 mb-4 border rounded-md focus:ring-2 focus:ring-blue-500"
               required
             />
+            {errorMsg && (
+              <div className="mb-4 text-red-600 text-sm text-center">
+                {errorMsg}
+              </div>
+            )}
             <button type="submit"
               className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-md hover:opacity-90 transition-all disabled:opacity-50"
+              disabled={loading}
             >
-              {"Entrar"}
+              {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
         </div>
